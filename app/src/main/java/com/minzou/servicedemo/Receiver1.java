@@ -60,13 +60,13 @@ public class Receiver1 extends BroadcastReceiver {
             i.setAction(Service1.LOCK_ACTION);
             context.startService(i);
         }
-//        if (action.equals("android.intent.action.Minzou")) {
-////            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
-//            Log.i(TAG, intent.getAction());
-//            Intent i = new Intent(context, Service1.class);
-//            i.setAction(Service1.LOCK_ACTION);
-//            context.startService(i);
-//        }
+        if (action.equals("android.intent.action.Minzou")) {
+            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
+            Log.i(TAG, intent.getAction());
+            Intent i = new Intent(context, Service1.class);
+            i.setAction(Service1.LOCK_ACTION);
+            context.startService(i);
+        }
 //        if (action.equals("com.leeliwei.test.receiver.action.test")) {
 //            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
 //            Log.i("this1111111111", "this222222222222222222222222");
