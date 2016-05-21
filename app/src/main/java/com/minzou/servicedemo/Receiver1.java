@@ -20,20 +20,27 @@ public class Receiver1 extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Boot this system , BootBroadcastReceiver onReceive()");
-        Log.i(TAG, intent.getAction());
-        String action = intent.getAction();
-        if (action.equals(ACTION_BOOT)
-                || action.equals("android.net.conn.CONNECTIVITY_CHANGE")
-                || action.equals("android.intent.action.MEDIA_MOUNTED")
-                || action.equals("android.intent.action.ACTION_POWER_DISCONNECTED")
-                || action.equals("android.intent.action.ACTION_POWER_CONNECTED")
-                || action.equals("android.intent.action.SCREEN_ON")) {
+        Log.i(TAG, Utils.isWorked(context,"com.minzou.servicedemo.Service1") + "");
+        if (intent.getAction() != null){
+
+            Log.i(TAG, intent.getAction());
+            if (!Utils.isWorked(context,Constant.SERVICE1)){
+                context.startService(new Intent(context, Service1.class));
+                Log.e(TAG, intent.getAction());
+            }
+            String action = intent.getAction();
+            if (action.equals(ACTION_BOOT)
+//                    || action.equals("android.net.conn.CONNECTIVITY_CHANGE")
+//                    || action.equals("android.intent.action.MEDIA_MOUNTED")
+//                    || action.equals("android.intent.action.ACTION_POWER_DISCONNECTED")
+//                    || action.equals("android.intent.action.ACTION_POWER_CONNECTED")
+                    || action.equals("android.intent.action.USER_PRESENT")) {
 //            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
-            Log.i(TAG, "BootBroadcastReceiver onReceive(), Do thing!");
-            Intent i = new Intent(context, Service1.class);
-            i.setAction(Service1.LOCK_ACTION);
-            context.startService(i);
-        }
+                Log.i(TAG, "BootBroadcastReceiver onReceive(), Do thing!");
+                Intent i = new Intent(context, Service1.class);
+                i.setAction(Service1.LOCK_ACTION);
+                context.startService(i);
+            }
 
 //        if (action.equals("android.intent.action.SCREEN_ON")) {
 //            System.out.println("—— SCREEN_ON ——");
@@ -53,20 +60,20 @@ public class Receiver1 extends BroadcastReceiver {
 //            i.setAction(Service1.LOCK_ACTION);
 //            context.startService(i);
 //        }
-        if (action.equals("android.intent.action.USER_PRESENT")) {
-//            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
-            Log.i(TAG, intent.getAction());
-            Intent i = new Intent(context, Service1.class);
-            i.setAction(Service1.LOCK_ACTION);
-            context.startService(i);
-        }
-        if (action.equals("android.intent.action.Minzou")) {
-            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
-            Log.i(TAG, intent.getAction());
-            Intent i = new Intent(context, Service1.class);
-            i.setAction(Service1.LOCK_ACTION);
-            context.startService(i);
-        }
+//            if (action.equals("android.intent.action.USER_PRESENT")) {
+////            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
+//                Log.i(TAG, intent.getAction());
+//                Intent i = new Intent(context, Service1.class);
+//                i.setAction(Service1.LOCK_ACTION);
+//                context.startService(i);
+//            }
+//            if (action.equals("android.intent.action.Minzou")) {
+//                Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
+//                Log.i(TAG, intent.getAction());
+//                Intent i = new Intent(context, Service1.class);
+//                i.setAction(Service1.LOCK_ACTION);
+//                context.startService(i);
+//            }
 //        if (action.equals("com.leeliwei.test.receiver.action.test")) {
 //            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
 //            Log.i("this1111111111", "this222222222222222222222222");
@@ -74,5 +81,6 @@ public class Receiver1 extends BroadcastReceiver {
 //            i.setAction(Service1.LOCK_ACTION);
 //            context.startService(i);
 //        }
+        }
     }
 }

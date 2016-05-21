@@ -21,6 +21,7 @@ public class Service1 extends Service{
     private Context mContext;
     private WindowManager mWinMng;
     private ScreenSaverView screenView;
+//    private StarLockView lockView;
     private IntentFilter intentFilter;
     private Receiver1 receiver;
 
@@ -64,17 +65,22 @@ public class Service1 extends Service{
     }
 
     public void addView() {
+//        if (lockView == null) {
         if (screenView == null) {
+//            lockView = new StarLockView(mContext);
             screenView = new ScreenSaverView(mContext);
 
             WindowManager.LayoutParams param = new WindowManager.LayoutParams();
-            param.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            param.type = WindowManager.LayoutParams.TYPE_TOAST
+            ;
             param.format = PixelFormat.RGBA_8888;
+            param.flags = 1280;
             // mParam.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
             // | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
             param.width = WindowManager.LayoutParams.MATCH_PARENT;
             param.height = WindowManager.LayoutParams.MATCH_PARENT;
 
+//            mWinMng.addView(lockView, param);
             mWinMng.addView(screenView, param);
         }
     }
@@ -84,5 +90,9 @@ public class Service1 extends Service{
             mWinMng.removeView(screenView);
             screenView = null;
         }
+//        if (lockView != null) {
+//            mWinMng.removeView(lockView);
+//            lockView = null;
+//        }
     }
 }

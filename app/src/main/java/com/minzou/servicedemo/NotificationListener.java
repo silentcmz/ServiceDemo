@@ -14,7 +14,10 @@ public class NotificationListener extends NotificationListenerService{
     public void onNotificationPosted(StatusBarNotification sbn) {
 
         Log.i("zpf", "open"+"-----"+sbn.toString());
-        startService(new Intent(getApplicationContext(), Service1.class));
+        if (!Utils.isWorked(getApplicationContext(),Constant.SERVICE1)){
+            startService(new Intent(getApplicationContext(), Service1.class));
+            Log.i("zpf", "shut"+"-----start service 1");
+        }
 //        Intent intent = new Intent("android.intent.action.Minzou");
 ////        intent.putExtras(mNotification.extras);
 //        if (android.os.Build.VERSION.SDK_INT >= 12) {
@@ -27,6 +30,11 @@ public class NotificationListener extends NotificationListenerService{
     public void onNotificationRemoved(StatusBarNotification sbn) {
         Log.i("zpf", "shut"+"-----"+sbn.toString());
         startService(new Intent(getApplicationContext(), Service1.class));
+        if (!Utils.isWorked(getApplicationContext(),Constant.SERVICE1)){
+            startService(new Intent(getApplicationContext(), Service1.class));
+
+            Log.i("zpf", "shut"+"-----start service 1");
+        }
 
     }
 }
