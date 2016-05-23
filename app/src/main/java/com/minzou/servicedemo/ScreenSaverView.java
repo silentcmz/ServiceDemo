@@ -1,10 +1,13 @@
 package com.minzou.servicedemo;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,8 +29,8 @@ public class ScreenSaverView extends RelativeLayout
 	private DirectionalViewPager mViewPager;
 	private int[] ids = new int[]{R.drawable.biz_ad_new_version1_img0, R.drawable.biz_ad_new_version1_img1, R.drawable.biz_ad_new_version1_img2, R.drawable.biz_ad_new_version1_img3};
 	private ArrayList<View> mList;
-
-	private Button btnUnlock;
+	private IntentFilter fliter;
+	private BroadCastReceiver receiver;
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -41,7 +44,6 @@ public class ScreenSaverView extends RelativeLayout
 		LayoutInflater inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		rootView = inflater.inflate(R.layout.screen_saver, this);
-		btnUnlock = (Button) rootView.findViewById(R.id.btn_unlock_screen);
 		mViewPager = (DirectionalViewPager) rootView.findViewById(R.id.viewpager);
 		mList = new ArrayList<>();
 		for (int i = 0; i < ids.length; i++) {
@@ -72,17 +74,11 @@ public class ScreenSaverView extends RelativeLayout
 
 			}
 		});
+		receiver = new BroadCastReceiver();
+		fliter = new IntentFilter();
+		fliter.addAction("wo.shi.jie.suo");
+		mContext.registerReceiver(receiver,fliter);
 
-		if(btnUnlock != null)
-			System.out.println("found the button");
-		btnUnlock.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(mContext, Service1.class);
-				i.setAction(Service1.UNLOCK_ACTION);
-				mContext.startService(i);
-			}
-		});
 	}
 
 	@Override
@@ -129,5 +125,28 @@ public class ScreenSaverView extends RelativeLayout
 		}
 
 
+	}
+
+	private class BroadCastReceiver extends BroadcastReceiver{
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction() != null){
+
+				Log.i("这是解锁",intent.getAction());
+				switch (intent.getAction()){
+
+					case "wo.shi.jie.suo":
+						if (intent.getStringExtra("type").equals("1")){
+							Log.i("这是解锁","1111111111");
+						}else{
+
+							Log.i("这是解锁","22222222222");
+						}
+						break;
+
+				}
+
+			}
+		}
 	}
 }

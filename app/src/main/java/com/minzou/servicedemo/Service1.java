@@ -1,12 +1,14 @@
 package com.minzou.servicedemo;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 
 /**
@@ -16,8 +18,8 @@ import android.view.WindowManager;
  */
 public class Service1 extends Service{
 
-    public static final String LOCK_ACTION = "lock";
-    public static final String UNLOCK_ACTION = "unlock";
+//    public static final String LOCK_ACTION = "lock";
+//    public static final String UNLOCK_ACTION = "unlock";
     private Context mContext;
     private WindowManager mWinMng;
     private ScreenSaverView screenView;
@@ -46,13 +48,17 @@ public class Service1 extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
-        if (TextUtils.equals(action, LOCK_ACTION))
-            addView();
-        else if (TextUtils.equals(action, UNLOCK_ACTION)) {
-            removeView();
-//            stopSelf();
-        }
+//        if (TextUtils.equals(action, LOCK_ACTION))
+//            addView();
+//        else if (TextUtils.equals(action, UNLOCK_ACTION)) {
+//            removeView();
+////            stopSelf();
+//        }
 //        return START_REDELIVER_INTENT;
+        IntentFilter fliter = new IntentFilter();
+        fliter.addAction("wo.shi.jie.suo");
+        fliter.addAction("wo.shi.suo");
+        mContext.registerReceiver(new BroadCastReceiver(),fliter);
         flags = START_REDELIVER_INTENT;
         return super.onStartCommand(intent, flags, startId);
     }
@@ -94,5 +100,33 @@ public class Service1 extends Service{
 //            mWinMng.removeView(lockView);
 //            lockView = null;
 //        }
+    }
+
+    private class BroadCastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null){
+
+                Log.i("这是解锁",intent.getAction());
+                switch (intent.getAction()){
+
+                    case "wo.shi.suo":
+                        addView();
+                        break;
+
+                    case "wo.shi.jie.suo":
+                        if (intent.getStringExtra("type").equals("1")){
+                            Log.i("这是解锁","1111111111");
+                        }else{
+
+                            Log.i("这是解锁","22222222222");
+                        }
+                        removeView();
+                        break;
+
+                }
+
+            }
+        }
     }
 }

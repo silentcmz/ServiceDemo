@@ -37,15 +37,17 @@ public class StarLockView extends RelativeLayout{
 
     private int mSmsViewHalfWidth, mSmsViewHalfHeight;
     private int mDialViewHalfWidth, mDialViewHalfHeight;
+    private int mLeftViewHalfWidth, mRightViewHalfHeight;
 //    private int mLightViewHalfWidth, mLightViewHalfHeight;
 
     private ImageView mSmsView, mDialView;
+    private ImageView mLeftView, mRightView;
     private ImageView mCenterView;
 //    private ImageView mSmsLightView,
 //            mDialLightView;
 
 
-    private Rect smsRect, dialRect;
+    private Rect smsRect, dialRect,rightRect,leftRect;
     private Rect mCenterViewRect;
 
     private AlphaAnimation alpha;
@@ -126,6 +128,18 @@ public class StarLockView extends RelativeLayout{
         mDialViewHalfWidth = (mDialView.getMeasuredWidth()) >> 1;
         mDialViewHalfHeight = (mDialView.getMeasuredHeight()) >> 1;
 
+        mRightView.measure(MeasureSpec.makeMeasureSpec(0,
+                MeasureSpec.UNSPECIFIED), MeasureSpec
+                .makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        mSmsViewHalfWidth = (mRightView.getMeasuredWidth()) >> 1;
+        mSmsViewHalfHeight = (mRightView.getMeasuredHeight()) >> 1;
+
+        mLeftView.measure(MeasureSpec.makeMeasureSpec(0,
+                MeasureSpec.UNSPECIFIED), MeasureSpec
+                .makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        mDialViewHalfWidth = (mLeftView.getMeasuredWidth()) >> 1;
+        mDialViewHalfHeight = (mLeftView.getMeasuredHeight()) >> 1;
+
 //        mSmsLightView.measure(MeasureSpec.makeMeasureSpec(0,
 //                MeasureSpec.UNSPECIFIED), MeasureSpec
 //                .makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
@@ -164,6 +178,16 @@ public class StarLockView extends RelativeLayout{
                 (mScreenHalfWidth - 4 * mCenterViewWidth / 2) + mDialViewHalfWidth,
                 (mCenterViewBottom - mCenterViewHeight / 2) + mDialViewHalfHeight);
 
+        mRightView.layout((mScreenHalfWidth + 2 * mCenterViewWidth / 2) - 2 * mSmsViewHalfWidth,
+                (mCenterViewTop + mCenterViewHeight / 2) - mSmsViewHalfHeight,
+                (mScreenHalfWidth + 2 * mCenterViewWidth / 2) + 2 * mSmsViewHalfWidth,
+                (mCenterViewBottom - mCenterViewHeight / 2) + mSmsViewHalfHeight);
+
+        mLeftView.layout((mScreenHalfWidth - 2 * mCenterViewWidth / 2) - mDialViewHalfWidth,
+                (mCenterViewTop + mCenterViewHeight / 2) - mDialViewHalfHeight,
+                (mScreenHalfWidth - 2 * mCenterViewWidth / 2) + mDialViewHalfWidth,
+                (mCenterViewBottom - mCenterViewHeight / 2) + mDialViewHalfHeight);
+
     }
 
     //创建各图标位置对应的Rect
@@ -177,6 +201,16 @@ public class StarLockView extends RelativeLayout{
                 (mCenterViewTop + mCenterViewHeight / 2) - mDialViewHalfHeight,
                 (mScreenHalfWidth - 4 * mCenterViewWidth / 2) + mDialViewHalfWidth,
                 (mCenterViewBottom - mCenterViewHeight / 2) + mDialViewHalfHeight);
+
+        leftRect = new Rect((mScreenHalfWidth - 2 * mCenterViewWidth / 2) - mDialViewHalfWidth,
+                (mCenterViewTop + mCenterViewHeight / 2) - mDialViewHalfHeight,
+                (mScreenHalfWidth - 2 * mCenterViewWidth / 2) + mDialViewHalfWidth,
+                (mCenterViewBottom - mCenterViewHeight / 2) + mDialViewHalfHeight);
+
+        rightRect = new Rect((mScreenHalfWidth + 2 * mCenterViewWidth / 2) - 2 * mSmsViewHalfWidth,
+                (mCenterViewTop + mCenterViewHeight / 2) - mSmsViewHalfHeight,
+                (mScreenHalfWidth + 2 * mCenterViewWidth / 2) + 2 * mSmsViewHalfWidth,
+                (mCenterViewBottom - mCenterViewHeight / 2) + mSmsViewHalfHeight);
 
     }
 
@@ -202,6 +236,16 @@ public class StarLockView extends RelativeLayout{
         mDialView.setImageResource(R.drawable.dial);
         setViewsLayout(mDialView);
         mDialView.setVisibility(View.VISIBLE);
+
+        mLeftView = new ImageView(context);
+        mLeftView.setImageResource(R.drawable.home);
+        setViewsLayout(mLeftView);
+        mLeftView.setVisibility(View.INVISIBLE);
+
+        mRightView = new ImageView(context);
+        mRightView.setImageResource(R.drawable.home);
+        setViewsLayout(mRightView);
+        mRightView.setVisibility(View.INVISIBLE);
 
 //        mSmsLightView = new ImageView(context);
 //        setLightDrawable(mSmsLightView);
@@ -266,7 +310,9 @@ public class StarLockView extends RelativeLayout{
 
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
-
+                    mLeftView.setVisibility(View.VISIBLE);
+                    mRightView.setVisibility(View.VISIBLE);
+                    mCenterView.setImageResource(R.drawable.centure2);
                     break;
                 case MotionEvent.ACTION_MOVE:
 //                    setTargetViewVisible(nx, ny);
@@ -299,7 +345,7 @@ public class StarLockView extends RelativeLayout{
         int mHalfCenterViewWidth = mCenterViewWidth >> 1;
 
         //Radius为中心图标移动的限定的圆范围区域半径
-        int Radius = 2 * mCenterViewWidth;
+        int Radius = mCenterViewWidth;
 
 		/*若用户手指移动的点与中心点的距离长度大于Radius，则中心图标坐标位置限定在移动区域范围圆弧上。
 		 * 一般是用户拖动中心图标，手指移动到限定圆范围区域外。
@@ -328,72 +374,66 @@ public class StarLockView extends RelativeLayout{
 
     //监听解锁、启动拨号、相机、短信应用
     private void doTriggerEvent(float a, float b) {
-        if (smsRect.contains((int) a, (int) b)) {
+        if (rightRect.contains((int) a, (int) b)) {
 //            onAnimationEnd();
-            virbate();
-        } else if (dialRect.contains((int) a, (int) b)) {
+            virbate(2);
+        } else if (leftRect.contains((int) a, (int) b)) {
 //            onAnimationEnd();
-            virbate();
+            virbate(1);
         }
     }
 
     //中心图标拖动到指定区域时显示高亮图标
     private void ShowLightView(float a, float b) {
-        if (smsRect.contains((int) a, (int) b)) {
-            mCenterView.setVisibility(GONE);
-            mSmsView.setImageResource(R.drawable.play);
-//            setLightVisible(mSmsLightView);
-        } else if (dialRect.contains((int) a, (int) b)) {
-            mCenterView.setVisibility(GONE);
-            mDialView.setImageResource(R.drawable.pause);
-//            setLightVisible(mDialLightView);
-        } else {
-            setLightInvisible();
+        if(rightRect.contains((int) a, (int) b)){
+            setActionRight();
+        }else if(leftRect.contains((int) a, (int) b)){
+            setActionLeft();
+        }else {
+            setActionDown();
         }
     }
 
-    private void setLightVisible(ImageView view) {
-        view.setVisibility(View.VISIBLE);
+    /**
+     * 中心图标 按下 所有控件状态
+     */
+    private void setActionDown(){
+        mCenterView.setVisibility(View.VISIBLE);
+        mCenterView.setImageResource(R.drawable.centure2);
+        mLeftView.setVisibility(View.VISIBLE);
+        mRightView.setVisibility(View.VISIBLE);
+        mSmsView.setImageResource(R.drawable.play);
+        mDialView.setImageResource(R.drawable.pause);
+
+    }
+
+    /**
+     * 中心图标 向右滑动到箭头位置 控件状态
+     */
+    private void setActionRight(){
+        mLeftView.setVisibility(View.INVISIBLE);
+        mRightView.setVisibility(View.INVISIBLE);
+        mSmsView.setImageResource(R.drawable.home);
         mCenterView.setVisibility(View.INVISIBLE);
     }
 
-    //隐藏高亮图标
-    private void setLightInvisible() {
-        mSmsView.setImageResource(R.drawable.sms);
-        mDialView.setImageResource(R.drawable.dial);
-        final View mActivatedViews[] = {
-//				mUnLockLightView,
-//                mSmsLightView,
-//                mDialLightView,
-//				mCameraLightView
-        };
-        for (View view : mActivatedViews) {
-            view.setVisibility(View.INVISIBLE);
-        }
-
-        mCenterView.setVisibility(View.VISIBLE);
+    /**
+     * 中心图标 向左滑动到箭头位置 控件状态
+     */
+    private void setActionLeft(){
+        mLeftView.setVisibility(View.INVISIBLE);
+        mRightView.setVisibility(View.INVISIBLE);
+        mDialView.setImageResource(R.drawable.home);
+        mCenterView.setVisibility(View.INVISIBLE);
     }
-
-//    private void setTargetViewInvisible(ImageView img) {
-//        img.setVisibility(View.INVISIBLE);
-//    }
-//
-//    private void setTargetViewVisible(float x, float y) {
-//        if (Math.sqrt(dist2(x - mScreenHalfWidth, y - (mCenterView.getTop() + mCenterViewWidth / 2)
-//        )) > mCenterViewHeight / 4) {
-////		    if (MusicInfo.isMusic())
-////		    {
-////		        setMusicButtonVisibility(false);
-////		    }
-////		    else
-////		    {
-////		        return;
-////		    }
-//        }
-//    }
 
     //重置中心图标，回到原位置
     private void resetMoveView() {
+        mLeftView.setVisibility(View.INVISIBLE);
+        mRightView.setVisibility(View.INVISIBLE);
+        mSmsView.setImageResource(R.drawable.sms);
+        mDialView.setImageResource(R.drawable.dial);
+        mCenterView.setImageResource(R.drawable.centure1);
         mCenterView.setX(mWidth / 2 - mCenterViewWidth / 2);
         mCenterView.setY((mCenterView.getTop() + mCenterViewHeight / 2) - mCenterViewHeight / 2);
 //        onAnimationStart();
@@ -401,12 +441,15 @@ public class StarLockView extends RelativeLayout{
     }
 
     //解锁时震动
-    private void virbate() {
+    private void virbate(int i) {
         Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(200);
-        Intent i = new Intent(mContext, Service1.class);
-        i.setAction(Service1.UNLOCK_ACTION);
-        mContext.startService(i);
+        Intent intent = new Intent("wo.shi.jie.suo");
+        intent.putExtra("type",i + "");
+        mContext.sendBroadcast(intent);
+//        Intent i = new Intent(mContext, Service1.class);
+//        i.setAction(Service1.UNLOCK_ACTION);
+//        mContext.startService(i);
     }
 
 //    //停止中心图标动画

@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         startService(new Intent(MainActivity.this, Service1.class));
+        Intent i = new Intent("wo.shi.suo");
+        sendBroadcast(i);
 
     }
 

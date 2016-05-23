@@ -37,9 +37,11 @@ public class Receiver1 extends BroadcastReceiver {
                     || action.equals("android.intent.action.USER_PRESENT")) {
 //            Toast.makeText(context, intent.getAction(), Toast.LENGTH_LONG).show();
                 Log.i(TAG, "BootBroadcastReceiver onReceive(), Do thing!");
-                Intent i = new Intent(context, Service1.class);
-                i.setAction(Service1.LOCK_ACTION);
-                context.startService(i);
+//                Intent i = new Intent(context, Service1.class);
+//                i.setAction(Service1.LOCK_ACTION);
+//                context.startService(i);
+                Intent i = new Intent("wo.shi.suo");
+                context.sendBroadcast(i);
             }
 
 //        if (action.equals("android.intent.action.SCREEN_ON")) {
