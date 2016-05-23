@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:glowpad="http://schemas.android.com/apk/res-auto"
     android:background="@mipmap/iphone5s"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <com.minzou.servicedemo.DirectionalViewPager
         android:id="@+id/viewpager"
@@ -17,4 +18,5 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:text="@string/unlock" />
+
 </RelativeLayout>

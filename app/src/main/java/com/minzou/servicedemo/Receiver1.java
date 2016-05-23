@@ -31,7 +31,7 @@ public class Receiver1 extends BroadcastReceiver {
             String action = intent.getAction();
             if (action.equals(ACTION_BOOT)
 //                    || action.equals("android.net.conn.CONNECTIVITY_CHANGE")
-//                    || action.equals("android.intent.action.MEDIA_MOUNTED")
+                    || action.equals("android.intent.action.SCREEN_OFF")
 //                    || action.equals("android.intent.action.ACTION_POWER_DISCONNECTED")
 //                    || action.equals("android.intent.action.ACTION_POWER_CONNECTED")
                     || action.equals("android.intent.action.USER_PRESENT")) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,13 @@ public class ScreenSaverView extends RelativeLayout
 	private ArrayList<View> mList;
 
 	private Button btnUnlock;
+
+
+	/* 标识是否点击中心原点 */
+	private boolean isClickCenterCircle;
+	private int mUnlockScore;
+	private int mWebSiteScore;
+	private int mAdverScore;
 	
 	public ScreenSaverView(Context context)
 	{
@@ -42,7 +51,6 @@ public class ScreenSaverView extends RelativeLayout
 			img.setImageResource(ids[i]);
 			mList.add(img);
 		}
-
 		mViewPager.setAdapter(new MyPagerAdapter(mList));
 		mViewPager.setOrientation(DirectionalViewPager.VERTICAL);
 		mViewPager.setCurrentItem(ids.length * 100);
