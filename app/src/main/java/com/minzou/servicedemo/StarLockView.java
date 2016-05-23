@@ -37,12 +37,12 @@ public class StarLockView extends RelativeLayout{
 
     private int mSmsViewHalfWidth, mSmsViewHalfHeight;
     private int mDialViewHalfWidth, mDialViewHalfHeight;
-    private int mLightViewHalfWidth, mLightViewHalfHeight;
+//    private int mLightViewHalfWidth, mLightViewHalfHeight;
 
     private ImageView mSmsView, mDialView;
     private ImageView mCenterView;
-    private ImageView mSmsLightView,
-            mDialLightView;
+//    private ImageView mSmsLightView,
+//            mDialLightView;
 
 
     private Rect smsRect, dialRect;
@@ -86,7 +86,7 @@ public class StarLockView extends RelativeLayout{
 //            mAlphaViewBottom = 4 * mHight / 7 + (mAlphaViewHeight >> 1);
 
             setChildViewLayout();
-            setActivatedViewLayout();
+//            setActivatedViewLayout();
             getChildViewRect();
 
             mCenterViewRect = new Rect(mWidth / 2 - mCenterViewWidth / 2, mCenterViewTop,
@@ -126,25 +126,25 @@ public class StarLockView extends RelativeLayout{
         mDialViewHalfWidth = (mDialView.getMeasuredWidth()) >> 1;
         mDialViewHalfHeight = (mDialView.getMeasuredHeight()) >> 1;
 
-        mSmsLightView.measure(MeasureSpec.makeMeasureSpec(0,
-                MeasureSpec.UNSPECIFIED), MeasureSpec
-                .makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-        mLightViewHalfWidth = (mSmsLightView.getMeasuredWidth()) >> 1;
-        mLightViewHalfHeight = (mSmsLightView.getMeasuredHeight()) >> 1;
+//        mSmsLightView.measure(MeasureSpec.makeMeasureSpec(0,
+//                MeasureSpec.UNSPECIFIED), MeasureSpec
+//                .makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+//        mLightViewHalfWidth = (mSmsLightView.getMeasuredWidth()) >> 1;
+//        mLightViewHalfHeight = (mSmsLightView.getMeasuredHeight()) >> 1;
 
     }
 
-    //设置高亮图标的布局
-    private void setActivatedViewLayout() {
-        mSmsLightView.layout((mScreenHalfWidth + 4 * mCenterViewWidth / 2) - 2 * mLightViewHalfWidth,
-                (mCenterViewTop + mCenterViewHeight / 2) - mLightViewHalfHeight,
-                (mScreenHalfWidth + 4 * mCenterViewWidth / 2) + 2 * mLightViewHalfWidth,
-                (mCenterViewBottom - mCenterViewHeight / 2) + mLightViewHalfHeight);
-        mDialLightView.layout((mScreenHalfWidth - 4 * mCenterViewWidth / 2) - mLightViewHalfWidth,
-                (mCenterViewTop + mCenterViewHeight / 2) - mLightViewHalfHeight,
-                (mScreenHalfWidth - 4 * mCenterViewWidth / 2) + mLightViewHalfWidth,
-                (mCenterViewBottom - mCenterViewHeight / 2) + mLightViewHalfHeight);
-    }
+//    //设置高亮图标的布局
+//    private void setActivatedViewLayout() {
+//        mSmsLightView.layout((mScreenHalfWidth + 4 * mCenterViewWidth / 2) - 2 * mLightViewHalfWidth,
+//                (mCenterViewTop + mCenterViewHeight / 2) - mLightViewHalfHeight,
+//                (mScreenHalfWidth + 4 * mCenterViewWidth / 2) + 2 * mLightViewHalfWidth,
+//                (mCenterViewBottom - mCenterViewHeight / 2) + mLightViewHalfHeight);
+//        mDialLightView.layout((mScreenHalfWidth - 4 * mCenterViewWidth / 2) - mLightViewHalfWidth,
+//                (mCenterViewTop + mCenterViewHeight / 2) - mLightViewHalfHeight,
+//                (mScreenHalfWidth - 4 * mCenterViewWidth / 2) + mLightViewHalfWidth,
+//                (mCenterViewBottom - mCenterViewHeight / 2) + mLightViewHalfHeight);
+//    }
 
     //设置各图标在FxLockView中的布局
     private void setChildViewLayout() {
@@ -203,15 +203,15 @@ public class StarLockView extends RelativeLayout{
         setViewsLayout(mDialView);
         mDialView.setVisibility(View.VISIBLE);
 
-        mSmsLightView = new ImageView(context);
-        setLightDrawable(mSmsLightView);
-        setViewsLayout(mSmsLightView);
-        mSmsLightView.setVisibility(INVISIBLE);
-
-        mDialLightView = new ImageView(context);
-        setLightDrawable(mDialLightView);
-        setViewsLayout(mDialLightView);
-        mDialLightView.setVisibility(INVISIBLE);
+//        mSmsLightView = new ImageView(context);
+//        setLightDrawable(mSmsLightView);
+//        setViewsLayout(mSmsLightView);
+//        mSmsLightView.setVisibility(INVISIBLE);
+//
+//        mDialLightView = new ImageView(context);
+//        setLightDrawable(mDialLightView);
+//        setViewsLayout(mDialLightView);
+//        mDialLightView.setVisibility(INVISIBLE);
     }
 
     private void setLightDrawable(ImageView img) {
@@ -340,9 +340,13 @@ public class StarLockView extends RelativeLayout{
     //中心图标拖动到指定区域时显示高亮图标
     private void ShowLightView(float a, float b) {
         if (smsRect.contains((int) a, (int) b)) {
-            setLightVisible(mSmsLightView);
+            mCenterView.setVisibility(GONE);
+            mSmsView.setImageResource(R.drawable.play);
+//            setLightVisible(mSmsLightView);
         } else if (dialRect.contains((int) a, (int) b)) {
-            setLightVisible(mDialLightView);
+            mCenterView.setVisibility(GONE);
+            mDialView.setImageResource(R.drawable.pause);
+//            setLightVisible(mDialLightView);
         } else {
             setLightInvisible();
         }
@@ -355,10 +359,12 @@ public class StarLockView extends RelativeLayout{
 
     //隐藏高亮图标
     private void setLightInvisible() {
+        mSmsView.setImageResource(R.drawable.sms);
+        mDialView.setImageResource(R.drawable.dial);
         final View mActivatedViews[] = {
 //				mUnLockLightView,
-                mSmsLightView,
-                mDialLightView,
+//                mSmsLightView,
+//                mDialLightView,
 //				mCameraLightView
         };
         for (View view : mActivatedViews) {

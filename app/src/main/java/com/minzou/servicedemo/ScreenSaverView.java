@@ -29,13 +29,11 @@ public class ScreenSaverView extends RelativeLayout
 
 	private Button btnUnlock;
 
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
+	}
 
-	/* 标识是否点击中心原点 */
-	private boolean isClickCenterCircle;
-	private int mUnlockScore;
-	private int mWebSiteScore;
-	private int mAdverScore;
-	
 	public ScreenSaverView(Context context)
 	{
 		super(context);
