@@ -190,6 +190,11 @@ public class DirectionalViewPager extends ViewPager {
 		setCurrentItemInternal(item, true, false);
 	}
 
+	public void setCurrentItem(int item,boolean smoothScroll){
+		mPopulatePending = false;
+		setCurrentItemInternal(item, smoothScroll, false);
+	}
+
 	void setCurrentItemInternal(int item, boolean smoothScroll, boolean always) {
 		if (mAdapter == null || mAdapter.getCount() <= 0) {
 			setScrollingCacheEnabled(false);
@@ -237,9 +242,14 @@ public class DirectionalViewPager extends ViewPager {
 		}
 	}
 
-	public void setOnPageChangeListener(OnPageChangeListener listener) {
+	@Override
+	public void addOnPageChangeListener(OnPageChangeListener listener) {
 		mOnPageChangeListener = listener;
 	}
+
+//	public void setOnPageChangeListener(OnPageChangeListener listener) {
+//
+//	}
 
 	/**
 	 * Like {@link View#scrollBy}, but scroll smoothly instead of immediately.

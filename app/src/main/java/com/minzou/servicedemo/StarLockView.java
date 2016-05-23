@@ -148,22 +148,8 @@ public class StarLockView extends RelativeLayout{
 
     }
 
-//    //设置高亮图标的布局
-//    private void setActivatedViewLayout() {
-//        mSmsLightView.layout((mScreenHalfWidth + 4 * mCenterViewWidth / 2) - 2 * mLightViewHalfWidth,
-//                (mCenterViewTop + mCenterViewHeight / 2) - mLightViewHalfHeight,
-//                (mScreenHalfWidth + 4 * mCenterViewWidth / 2) + 2 * mLightViewHalfWidth,
-//                (mCenterViewBottom - mCenterViewHeight / 2) + mLightViewHalfHeight);
-//        mDialLightView.layout((mScreenHalfWidth - 4 * mCenterViewWidth / 2) - mLightViewHalfWidth,
-//                (mCenterViewTop + mCenterViewHeight / 2) - mLightViewHalfHeight,
-//                (mScreenHalfWidth - 4 * mCenterViewWidth / 2) + mLightViewHalfWidth,
-//                (mCenterViewBottom - mCenterViewHeight / 2) + mLightViewHalfHeight);
-//    }
-
     //设置各图标在FxLockView中的布局
     private void setChildViewLayout() {
-//        mAlphaView.layout(mScreenHalfWidth - mAlphaViewWidth / 2, mAlphaViewTop,
-//                mScreenHalfWidth + mAlphaViewWidth / 2, mAlphaViewBottom);
 
         mCenterView.layout(mScreenHalfWidth - mCenterViewWidth / 2, mCenterViewTop,
                 mScreenHalfWidth + mCenterViewWidth / 2, mCenterViewBottom);
